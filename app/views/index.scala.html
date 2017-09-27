@@ -1,0 +1,52 @@
+@()
+
+@scripts = {
+    <script src="@routes.Assets.versioned("javascripts/jquery-3.2.1.min.js")" type="text/javascript"></script>
+    <script>
+            function onCacheSet() {
+                var value = $('#the-input').val()
+                $.ajax({
+                    url: jsRoutes.controllers.HomeController.set(value).url,
+                    type: jsRoutes.controllers.HomeController.set(value).method
+                }).done(function (response) {
+                    $('#the-message').text(response.message)
+                }).fail(function (error) {
+                    $('#the-message').text(error.responseJSON.message)
+                })
+            }
+
+            function onCacheGet() {
+                $.ajax({
+                    url: '@controllers.routes.HomeController.get.url',
+                    type: '@controllers.routes.HomeController.get.method'
+                }).done(function (response) {
+                    $('#the-message').text(response.message)
+                }).fail(function (error) {
+                    $('#the-message').text(error.responseJSON.message)
+                })
+            }
+
+            function onCacheRemove() {
+                $.ajax({
+                    url: '@controllers.routes.HomeController.remove.url',
+                    type: '@controllers.routes.HomeController.remove.method'
+                }).done(function (response) {
+                    $('#the-message').text(response.message)
+                }).fail(function (error) {
+                    $('#the-message').text(error.responseJSON.message)
+                })
+            }
+
+            $('#set-btn').on('click', onCacheSet)
+            $('#get-btn').on('click', onCacheGet)
+            $('#remove-btn').on('click', onCacheRemove)
+    </script>
+}
+
+@main("Welcome to Play", scripts) {
+    <h1 id="the-message">Welcome to Play!</h1>
+    <input type="text" name="theInput" id="the-input">
+    <button id="set-btn">Save</button>
+    <button id="get-btn">Get</button>
+    <button id="remove-btn">Remove</button>
+}
