@@ -26,12 +26,12 @@ public class HomeController extends Controller {
         String cacheValue = cacheApi.get("key");
 
         if (cacheValue != null) {
-            responseJson.put("message", "tem algo na cache, remova antes");
+            responseJson.put("message", "theres something there, I won't set until you remove it");
             return status(409, responseJson);
         }
 
         cacheApi.set("key", value);
-        responseJson.put("message", "cache foi setada");
+        responseJson.put("message", "your cache now has something");
         return ok(responseJson);
     }
 
@@ -40,11 +40,11 @@ public class HomeController extends Controller {
         String cacheValue = cacheApi.get("key");
 
         if (cacheValue == null) {
-            responseJson.put("message", "nao encontramos algo na cache");
+            responseJson.put("message", "there is nothing here to get");
             return notFound(responseJson);
         }
 
-        responseJson.put("message", "achamos: " + cacheValue);
+        responseJson.put("message", "found something: " + cacheValue);
         return ok(responseJson);
     }
 
@@ -53,12 +53,12 @@ public class HomeController extends Controller {
         String cacheValue = cacheApi.get("key");
 
         if (cacheValue == null) {
-            responseJson.put("message", "nao encontramos algo na cache");
+            responseJson.put("message", "there is nothing here to remove");
             return notFound(responseJson);
         }
 
         cacheApi.remove("key");
-        responseJson.put("message", "removemos o que tava la");
+        responseJson.put("message", "what we had we no longer have");
         return ok(responseJson);
     }
 }
